@@ -3,19 +3,23 @@
 .game-container {
     display: grid;
     grid-template-columns: auto auto auto;
-    margin-top: 50px;
-    margin-left: 50px;
+    justify-items: center;
+    align-items: center;
     position: absolute;
+    left: 5%;
+    top: 10%;
 }
 /* Settings for individual cells in grid
 */
 .cell {
-    display: inline-block;
-    padding: 30px;
+    display: flex;
+    height: 100px;
+    width: 100px;
     border: 2px solid black;
     cursor: pointer;
-    font-size: 50px;
-    text-align: center;
+    font-size: 70px;
+    justify-content: center;
+    align-items: center;
 }
 
 .restart {
