@@ -1,25 +1,25 @@
-/* Settings grid layout for container
+/* Settings grid layout for container and position
+auto template for center alignment
 */
 .game-container {
     display: grid;
     grid-template-columns: auto auto auto;
-    justify-items: center;
-    align-items: center;
     position: absolute;
     left: 5%;
     top: 10%;
 }
 /* Settings for individual cells in grid
+-moz-user-select for disable text highlight
 */
 .cell {
-    display: flex;
     height: 100px;
     width: 100px;
     border: 2px solid black;
     cursor: pointer;
-    font-size: 70px;
-    justify-content: center;
-    align-items: center;
+    font-size: 85px;
+    padding: 5px;
+    text-align: center;
+    -moz-user-select: -moz-none;
 }
 
 .restart {
