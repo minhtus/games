@@ -1,5 +1,6 @@
 const cells = document.querySelectorAll('.cell');
 const n = 3;
+const winCondition = 3;
 // Init a 2D array that manage the board
 const board = Array.from({ length: n }, () =>
     Array.from({ length: n }, () => 0)
@@ -10,6 +11,7 @@ function restart() {
         cells[i].textContent = '';
         cells[i].addEventListener('click', cellClick, false);
     }
+    player = 'O';
     board.forEach(arr => arr.fill(0));
     console.log(board)
 }
@@ -23,22 +25,23 @@ function play(cellId, pattern) {
     if (cell.textContent === '') {
         console.log(`play ${player} on ${cellId}`);
         cell.textContent = pattern;
+        const row = parseInt(cellId.charAt(1));
+        const col = parseInt(cellId.charAt(2));
         if (player === 'O') {
             // value of 1 is O
-            writeBoard(cellId, 1);
+            writeBoard(row, col, 1);
         } else {
             // value of -1 is X
-            writeBoard(cellId, -1);
+            writeBoard(row, col, -1);
         }
+        checkBoard(row, col);
+        switchTurn();
     }
-    checkWin();
-    switchTurn();
+
 }
 
-function writeBoard(cellId, value) {
-    const row = cellId.charAt(1);
-    const col = cellId.charAt(2);
-    console.log(`${row}:${col}`)
+function writeBoard(row, col, value) {
+    console.log(`${row}:${col}`);
     board[row][col] = value;
 }
 
@@ -51,7 +54,48 @@ function switchTurn() {
 }
 
 
-function checkWin(lastMoveRow, lastMoveCol) {
+function checkBoard(row, col) {
+    let winner = null;
+    //check win
+    if (player === 'O') {
+        if (checkWin(1, row, col)) {
+            winner = 'O';
+        }
+    } else {
+        if (checkWin(-1, row, col)) {
+            winner = 'X';
+        }
+    }
+
+    console.log(`RESULT: ${winner} win`);
+    // check tie
+    if (winner === null) {
+        const tie = board.every(arr => arr.every(n => n!== 0));
+        console.log(`TIE: ${tie}`);
+    }
+
+}
+
+function checkWin(value, row, col) {
+    let ver = 0;
+    let hor = 0;
+    let diag1 = 0;
+    let diag2 = 0;
+    // check vertical
+    //check horizontal
+    for (let i = 0; i < n; i++) {
+        ver += board[i][col];
+        hor += board[row][i];
+        //check diagonal
+        if (row === col || (row + col) === n-1) {
+            console.log('On diagonal')
+            diag1 += board[i][i];
+            diag2 += board[i][n-1-i];
+        }
+    }
+    if (ver === value*winCondition || hor === value*winCondition || diag1 === value*winCondition || diag2 === value*winCondition) {
+        return true;
+    }
 
 }
 
