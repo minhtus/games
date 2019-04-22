@@ -9,7 +9,7 @@ auto template for center alignment
     top: 10%;
 }
 /* Settings for individual cells in grid
--moz-user-select for disable text highlight
+user-select for disable text highlight
 */
 .cell {
     height: 100px;
@@ -19,7 +19,10 @@ auto template for center alignment
     font-size: 85px;
     padding: 5px;
     text-align: center;
-    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .restart {
