@@ -66,14 +66,16 @@ function checkBoard(row, col) {
             winner = 'X';
         }
     }
-
-    console.log(`RESULT: ${winner} win`);
-    // check tie
-    if (winner === null) {
+    if (winner !== null) {
+        endGame(winner);
+    } else {
+        // check tie
         const tie = board.every(arr => arr.every(n => n!== 0));
         console.log(`TIE: ${tie}`);
+        if(tie) {
+            endGame();
+        }
     }
-
 }
 
 function checkWin(value, row, col) {
@@ -87,16 +89,25 @@ function checkWin(value, row, col) {
         ver += board[i][col];
         hor += board[row][i];
         //check diagonal
-        if (row === col || (row + col) === n-1) {
-            console.log('On diagonal')
-            diag1 += board[i][i];
-            diag2 += board[i][n-1-i];
-        }
+        diag1 += board[i][i];
+        diag2 += board[i][n-1-i];
     }
     if (ver === value*winCondition || hor === value*winCondition || diag1 === value*winCondition || diag2 === value*winCondition) {
         return true;
     }
 
+}
+
+function endGame(winner) {
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].removeEventListener('click', cellClick);
+    }
+    if (winner !== null) {
+        setTimeout(() => alert(`Congratulations! ${winner} WINNNN`), 0);
+
+    } else {
+        setTimeout(() => alert(`It's a tie`), 0);
+    }
 }
 
 // start game
