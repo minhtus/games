@@ -28,7 +28,6 @@ user-select for disable text highlight
 .restart {
     font-size: 20px;
     padding: 5px;
-    position: fixed;
 }
 
 /* Remove outline border to look like an tic tac toe board
