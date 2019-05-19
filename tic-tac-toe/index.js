@@ -136,10 +136,12 @@ function endGame(winner) {
 }
 
 function minmax(board, depth, player) {
-    // check state
-    const state = gameState(board, player);
+    // check state of last move by last player, so we have to flip player
+    const state = gameState(board, player === 1 ? -1 : 1);
     if (state) {
-        return player === 1 ? depth - 10 : 10 - depth;
+        // game win go here
+        // if this turn player is -1 (AI), then last turn is 1 (Human)
+        return player === -1 ? depth - 10 : 10 - depth;
     } else if (state === null) {
         return 0;
     } else {
