@@ -7,8 +7,23 @@ const gameBoard = Array.from({length: n}, () =>
 );
 // current player and AI status
 let player = 1;
-let AI = false;
+let A = 'X';
+let B = 'O';
+let AI = "true";
 
+function playX() {
+    console.log('User play as X');
+    A = 'X';
+    B = 'O';
+}
+
+function playO() {
+    console.log('User play as O');
+    A = 'O';
+    B = 'X';
+}
+
+// restart game button
 function restart() {
     const cells = document.querySelectorAll('.cell');
     for (let i = 0; i < cells.length; i++) {
@@ -20,21 +35,25 @@ function restart() {
     console.log(gameBoard)
 }
 
+// event listener when a cell is click
 function cellClick(cell) {
     play(cell.target.id);
-    if (AI) {
-        // do sth to get the id
+    // if play with ai
+    if (AI === "true") {
+        // get ai result by min max algorithm
         const aiResult = minmax(gameBoard, 0, player);
-        console.log(aiResult);
+        // parse the result
         const cellId = `c${aiResult.row}${aiResult.col}`;
+        // play to board
         play(cellId);
     }
 }
 
+// play function and display in view
 function play(cellId) {
     const cell = document.getElementById(cellId);
     if (cell.textContent === '') {
-        const pattern = player === 1 ? 'O' : 'X';
+        const pattern = player === 1 ? A : B;
         console.log(`play ${pattern} on ${cellId}`);
         cell.textContent = pattern;
         const row = parseInt(cellId.charAt(1));
@@ -46,11 +65,13 @@ function play(cellId) {
 
 }
 
+// write played data to current play model
 function writeBoard(row, col) {
     console.log(`${row}:${col}`);
     gameBoard[row][col] = player;
 }
 
+// switch turn, change the player each time a turn is finished
 function switchTurn() {
     if (player === 1) {
         player = -1;
@@ -59,12 +80,13 @@ function switchTurn() {
     }
 }
 
+// check the board to find winner
 function checkBoard(row, col) {
     let winner = null;
     //check win
     const state = gameState(gameBoard, player, row, col);
     if (state) {
-        winner = player === 1 ? 'O' : 'X';
+        winner = player === 1 ? A : B;
         endGame(winner);
     } else if (state === null) {
         console.log(`TIE`);
@@ -72,6 +94,7 @@ function checkBoard(row, col) {
     }
 }
 
+// return the game state
 function gameState(board, player, row, col) {
     let diag1 = 0;
     let diag2 = 0;
@@ -122,19 +145,21 @@ function gameState(board, player, row, col) {
     }
 }
 
+// announce the winner
 function endGame(winner) {
     const cells = document.querySelectorAll('.cell');
     for (let i = 0; i < cells.length; i++) {
         cells[i].removeEventListener('click', cellClick);
     }
     if (winner !== null) {
-        setTimeout(() => alert(`Congratulations! ${winner} WINNNN`), 0);
+        setTimeout(() => alert(`The winner is ${winner}`), 0);
 
     } else {
         setTimeout(() => alert(`It's a tie`), 0);
     }
 }
 
+// min max function for AI
 function minmax(board, depth, player) {
     // check state of last move by last player, so we have to flip player
     const state = gameState(board, player === 1 ? -1 : 1);

@@ -1,10 +1,11 @@
 /* Settings grid layout for container and position
 auto template for center alignment
 */
-.game-container {
+.board {
     display: grid;
     grid-template-columns: auto auto auto;
     position: absolute;
+    padding: 20px;
     left: 5%;
     top: 10%;
 }
