@@ -36,33 +36,38 @@ function restart() {
 }
 
 // event listener when a cell is click
-function cellClick(cell) {
-    play(cell.target.id);
-    // if play with ai
-    if (AI === "true") {
-        // get ai result by min max algorithm
-        const aiResult = minmax(gameBoard, 0, player);
-        // parse the result
-        const cellId = `c${aiResult.row}${aiResult.col}`;
-        // play to board
+function cellClick(click) {
+    const cellId = click.target.id;
+    const cell = document.getElementById(cellId);
+    if (cell.textContent === '') {
         play(cellId);
+        // if play with ai
+        if (AI === "true") {
+            // get ai result by min max algorithm
+            const aiResult = minmax(gameBoard, 0, player);
+            // parse the result
+            if (aiResult !== 0) {
+                const cellId = `c${aiResult.row}${aiResult.col}`;
+                // play to board
+                play(cellId);
+            }
+
+        }
     }
+
 }
 
 // play function and display in view
 function play(cellId) {
     const cell = document.getElementById(cellId);
-    if (cell.textContent === '') {
-        const pattern = player === 1 ? A : B;
-        console.log(`play ${pattern} on ${cellId}`);
-        cell.textContent = pattern;
-        const row = parseInt(cellId.charAt(1));
-        const col = parseInt(cellId.charAt(2));
-        writeBoard(row, col);
-        checkBoard(row, col);
-        switchTurn();
-    }
-
+    const pattern = player === 1 ? A : B;
+    console.log(`play ${pattern} on ${cellId}`);
+    cell.textContent = pattern;
+    const row = parseInt(cellId.charAt(1));
+    const col = parseInt(cellId.charAt(2));
+    writeBoard(row, col);
+    checkBoard(row, col);
+    switchTurn();
 }
 
 // write played data to current play model
