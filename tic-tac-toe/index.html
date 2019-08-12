@@ -11,6 +11,17 @@
 
 <body>
     <div class="game-container">
+        <div class="control">
+            <span style="font-size: 18px">Play vs </span>
+            <select onchange="AI=this.value">
+                <option value="true">Computer</option>
+                <option value="false">Player</option>
+            </select>
+            <br/>
+            <span style="font-size: 18px">Play as</span>
+            <button onclick="playX()" class="button">X</button>
+            <button onclick="playO()" class="button">O</button>
+        </div>
         <div class="board">
             <div id="c00" class="cell"></div>
             <div id="c01" class="cell"></div>
@@ -23,16 +34,6 @@
             <div id="c22" class="cell"></div>
         </div>
         <button class="restart" onclick="restart()">Restart</button>
-
-        Play with:
-        <select onchange="AI=this.value">
-            <option value="true">Computer</option>
-            <option value="false">Human</option>
-        </select>
-
-        Play as
-        <button onclick="playX()">X</button>
-        <button onclick="playO()">O</button>
     </div>
 
     <script src="../jquery-3.3.1.min.js"></script>

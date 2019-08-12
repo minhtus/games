@@ -1,20 +1,55 @@
+.game-container {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    text-align: center;
+}
+.control {
+    text-align: initial;
+}
+
+.button {
+    font-weight: bold;
+    color: #000;
+    background: #fff;
+    text-decoration: none;
+    padding: 8px 60px;
+    cursor: pointer;
+    display: inline-block;
+    color: rgba(0,0,0,.54);
+    font-size: 22px;
+    text-align: right;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.16);
+    line-height: 16px;
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+.button:hover {
+    background: #eee;
+}
+
+button:focus {outline:0;}
+
 /* Settings grid layout for container and position
 auto template for center alignment
 */
 .board {
     display: grid;
-    grid-template-columns: auto auto auto;
-    position: absolute;
-    padding: 20px;
-    left: 5%;
-    top: 10%;
+    padding: 10px 0;
+    grid-template-columns: calc(100% /3) calc(100% /3) calc(100% /3);
+    grid-template-rows: calc(100% /3) calc(100% /3) calc(100% /3);
+    width: 350px;
+    height: 350px;
 }
 /* Settings for individual cells in grid
 user-select for disable text highlight
 */
 .cell {
-    height: 100px;
-    width: 100px;
     border: 2px solid black;
     cursor: pointer;
     font-size: 85px;
@@ -27,9 +62,18 @@ user-select for disable text highlight
 }
 
 .restart {
-    font-size: 20px;
-    padding: 5px;
+    font-size: 25px;
+    color: #00b300;
+    background: #fff;
+    border: none;
+    padding: 14px 28px;
+    cursor: pointer;
+    display: inline-block;
+
 }
+
+.restart:hover {background: #eee;}
+
 
 /* Remove outline border to look like an tic tac toe board
 */
