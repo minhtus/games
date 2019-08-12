@@ -12,15 +12,35 @@ let B = 'O';
 let AI = "true";
 
 function playX() {
+    if (A === 'X' && B === 'O')
+        return;
+    if (!gameBoard.every(arr => arr.every(n => n === 0))) {
+        return;
+    }
     console.log('User play as X');
     A = 'X';
     B = 'O';
+    document.getElementById('x').style.borderBottom = "2px solid #00b300";
+    document.getElementById('o').style.borderBottom = "none";
 }
 
 function playO() {
+    if (A === 'O' && B === 'X')
+        return;
+    if (!gameBoard.every(arr => arr.every(n => n === 0))) {
+        return;
+    }
     console.log('User play as O');
     A = 'O';
     B = 'X';
+    document.getElementById('o').style.borderBottom = "2px solid #00b300";
+    document.getElementById('x').style.borderBottom = "none";
+}
+
+function init() {
+    restart();
+    document.getElementById('x').style.borderBottom = "2px solid #00b300";
+    document.getElementById('o').style.borderBottom = "none";
 }
 
 // restart game button
@@ -32,7 +52,6 @@ function restart() {
     }
     player = 1;
     gameBoard.forEach(arr => arr.fill(0));
-    console.log(gameBoard)
 }
 
 // event listener when a cell is click
@@ -212,4 +231,4 @@ function minmax(board, depth, player) {
 }
 
 // start game
-restart();
+init();
