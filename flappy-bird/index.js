@@ -10,6 +10,7 @@ const game = function () {
     this.init = () => {
         this.background = new background(this);
         this.bird = new bird(this);
+        canvas.addEventListener('click', this.bird.flap);
 
         loop();
     };

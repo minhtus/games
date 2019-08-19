@@ -1,12 +1,12 @@
 const bird = function(game) {
-    this.context = game.context;
+    const context = game.context;
     const images = [];
     let currentImage = 0;
     let currentFrame = 0;
 
     let y = 80;
     let speed = 0;
-    let accelerator = 0.05;
+    let accelerator = 0.15;
 
     loadImages();
 
@@ -43,6 +43,9 @@ const bird = function(game) {
             y = game.height - 112 - 24;
             return;
         }
+        if (y <=0) {
+            y = 0;
+        }
         speed+=accelerator;
         y+=speed;
     }
@@ -58,7 +61,11 @@ const bird = function(game) {
         update();
         if (images.length < 4)
             return;
-        this.context.drawImage(images[currentImage], 40, y);
+        context.drawImage(images[currentImage], 40, y);
     };
+
+    this.flap = () => {
+        speed = -5
+    }
 
 };

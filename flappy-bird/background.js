@@ -1,18 +1,25 @@
 const background = function (game) {
-    this.context = game.context;
+    const context = game.context;
 
     const background = new Image();
     background.src = './assets/background-day.png';
     const ground = new Image();
     ground.src = './assets/ground.png';
 
-    function update() {
+    let x = 0;
 
+    function update() {
+        x--;
+        if (x < -game.width) {
+            x = 0;
+        }
     }
 
     this.draw = () => {
         update();
-        this.context.drawImage(background, 0, 0);
-        this.context.drawImage(ground, 0, game.height - 112);
+        context.drawImage(background, x, 0);
+        context.drawImage(background, x + game.width, 0);
+        context.drawImage(ground, x, game.height - 112);
+        context.drawImage(ground, x + game.width, game.height - 112);
     }
 };
