@@ -10,11 +10,8 @@ const background = function (game) {
 
     }
 
-    this.init = () => {
-
-    };
-
     this.draw = () => {
+        update();
         this.context.drawImage(background, 0, 0);
         this.context.drawImage(ground, 0, game.height - 112);
     }

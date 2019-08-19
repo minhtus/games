@@ -9,9 +9,7 @@ const game = function () {
 
     this.init = () => {
         this.background = new background(this);
-        this.background.init();
         this.bird = new bird(this);
-        this.bird.init();
 
         loop();
     };
