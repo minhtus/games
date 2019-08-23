@@ -4,9 +4,9 @@ const bird = function(game) {
     let currentImage = 0;
     let currentFrame = 0;
 
-    let y = 80;
+    let y = 100;
     let speed = 0;
-    let accelerator = 0.15;
+    const accelerator = 0.4;
 
     loadImages();
 
@@ -30,6 +30,9 @@ const bird = function(game) {
     }
 
     function update () {
+        if (game.gameState === 0 || game.gameState === 2) {
+            return;
+        }
         currentFrame++;
         if (currentFrame === 60) {
             currentFrame = 0;
@@ -41,6 +44,7 @@ const bird = function(game) {
 
         if (y >= game.height - 112 - 24) {
             y = game.height - 112 - 24;
+            game.gameState = 2;
             return;
         }
         if (y <=0) {
@@ -57,6 +61,11 @@ const bird = function(game) {
         }
     }
 
+    this.resetBirdPosition = () => {
+        y = 100;
+        speed = 0;
+    };
+
     this.draw = () => {
         update();
         if (images.length < 4)
@@ -65,7 +74,7 @@ const bird = function(game) {
     };
 
     this.flap = () => {
-        speed = -5
+        speed = -7.5
     }
 
 };
