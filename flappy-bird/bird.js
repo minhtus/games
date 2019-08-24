@@ -25,12 +25,12 @@ const bird = function (game) {
         up.onload = () => {
             images[0] = up;
         };
+        down.onload = () => {
+            images[2] = down;
+        };
         mid.onload = () => {
             images[1] = mid;
             images[3] = mid;
-        };
-        down.onload = () => {
-            images[2] = down;
         };
     }
 
@@ -41,8 +41,7 @@ const bird = function (game) {
                 if (pipe0 + 52 < 0) {
                     game.pipe.pipes.shift();
                 } else if (pipe0 + 52 < x && pipe0 + 52 >= x - game.speed) {
-                    game.score++;
-                    console.log(`Score: ${game.score}`);
+                    game.goal();
                 }
 
             if (x < pipe0 + 52 && x + birdWidth > pipe0) {
@@ -73,7 +72,7 @@ const bird = function (game) {
         if (game.gameState === 1) {
             if (this.y >= game.height - 112 - birdHeight) {
                 this.y = game.height - 112 - birdHeight;
-                game.gameState = 2;
+                game.gameOver();
                 return;
             }
             if (this.y < 0) {

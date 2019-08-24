@@ -1,3 +1,24 @@
 #canvas {
-    padding: 5px;
+    padding-top: 5px;
+}
+
+.game-container {
+    height: fit-content;
+    width: fit-content;
+}
+
+.score {
+    text-align: end;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.high-score {
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

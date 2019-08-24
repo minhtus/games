@@ -3,9 +3,14 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>Flappy bird</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="./favicon.ico" rel="icon" type="image/x-icon" />
 </head>
 <body>
-    <canvas id="canvas"></canvas>
+    <div class="game-container">
+        <div class="high-score">High Score <span id="high-score">0</span></div>
+        <div class="score">Score <span id="score">0</span></div>
+        <canvas id="canvas"></canvas>
+    </div>
     <script src="./index.js"></script>
     <script src="./background.js"></script>
     <script src="./pipe.js"></script>

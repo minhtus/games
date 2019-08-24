@@ -3,14 +3,15 @@ const game = function () {
     this.height = 512;
     this.gameState = 0;
     this.speed = 2;
-    this.score = 0;
-    this.highScore = 0;
+    let score = 0;
+    let highScore = 0;
 
     const canvas = document.getElementById('canvas');
     canvas.width = this.width;
     canvas.height = this.height;
     this.context = canvas.getContext('2d');
-    let request = null;
+    const scoreElement = document.getElementById('score');
+    const highScoreElement = document.getElementById('high-score');
 
     this.init = () => {
         this.background = new background(this);
@@ -19,6 +20,19 @@ const game = function () {
         canvas.addEventListener('click', controlGame);
 
         loop();
+    };
+
+    this.goal = () => {
+        score++;
+        scoreElement.textContent = score;
+    };
+
+    this.gameOver = () => {
+        this.gameState = 2;
+        if (score > highScore) {
+            highScore = score;
+            highScoreElement.textContent = highScore;
+        }
     };
 
     const controlGame = () => {
@@ -39,11 +53,8 @@ const game = function () {
     const resetGame = () => {
         this.bird.reset();
         this.pipe.reset();
-        if (this.score > this.highScore) {
-            this.highScore = this.score;
-            console.log(`High score: ${this.highScore}`);
-        }
-        this.score = 0;
+        score = 0;
+        scoreElement.textContent = score;
     };
 
     const drawStartGame = () => {
@@ -71,7 +82,7 @@ const game = function () {
                 if (this.bird.birdHitBox()) {
                     if (this.bird.y < this.pipe.upperHitBox() || this.bird.y + 24 > this.pipe.lowerHitBox()) {
                         console.log('Hit');
-                        this.gameState = 2;
+                        this.gameOver();
                     }
                 }
                 drawInGame();
@@ -80,7 +91,7 @@ const game = function () {
                 drawEndGame();
                 break;
         }
-        request = requestAnimationFrame(loop);
+        requestAnimationFrame(loop);
     }
 };
 
