@@ -17,7 +17,7 @@ const background = function (game) {
         if (game.gameState === 0 || game.gameState === 2) {
             return;
         }
-        x--;
+        x -= game.speed;
         if (x < -game.width) {
             x = 0;
         }
@@ -35,8 +35,7 @@ const background = function (game) {
 
     this.drawInGame = () => {
         update();
-        context.drawImage(background, x, 0);
-        context.drawImage(background, x + game.width, 0);
+        context.drawImage(background, 0, 0);
         context.drawImage(ground, x, game.height - 112);
         context.drawImage(ground, x + game.width, game.height - 112);
     }

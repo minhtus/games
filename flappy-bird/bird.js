@@ -4,9 +4,12 @@ const bird = function(game) {
     let currentImage = 0;
     let currentFrame = 0;
 
-    let y = 100;
-    let speed = 0;
+    const x = 40;
+    let fallingSpeed = 0;
     const accelerator = 0.4;
+
+    this.y = 100;
+    this.flapRatio = 5;
 
     loadImages();
 
@@ -29,7 +32,9 @@ const bird = function(game) {
         };
     }
 
-    function update () {
+    this.birdHitBox = () => x < game.pipe.x + 52 && x + 24 > game.pipe.x;
+
+    const update = () => {
         if (game.gameState === 0 || game.gameState === 2) {
             return;
         }
@@ -38,21 +43,22 @@ const bird = function(game) {
             currentFrame = 0;
         }
 
-        if (currentFrame % 15 === 0) {
+        if (currentFrame % this.flapRatio === 0) {
             animateBird();
         }
 
-        if (y >= game.height - 112 - 24) {
-            y = game.height - 112 - 24;
+        if (this.y >= game.height - 112 - 24) {
+            this.y = game.height - 112 - 24;
             game.gameState = 2;
             return;
         }
-        if (y <=0) {
-            y = 0;
+        if (this.y <0) {
+            this.y = 0;
+            fallingSpeed = 0;
         }
-        speed+=accelerator;
-        y+=speed;
-    }
+        fallingSpeed += accelerator;
+        this.y += fallingSpeed;
+    };
 
     function animateBird() {
         currentImage++;
@@ -62,19 +68,19 @@ const bird = function(game) {
     }
 
     this.resetBirdPosition = () => {
-        y = 100;
-        speed = 0;
+        this.y = 100;
+        fallingSpeed = 0;
     };
 
     this.draw = () => {
         update();
         if (images.length < 4)
             return;
-        context.drawImage(images[currentImage], 40, y);
+        context.drawImage(images[currentImage], x, this.y);
     };
 
     this.flap = () => {
-        speed = -7.5
+        fallingSpeed = -7.5
     }
 
 };

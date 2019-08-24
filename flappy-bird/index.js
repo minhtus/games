@@ -2,6 +2,7 @@ const game = function () {
     this.width = 288;
     this.height = 512;
     this.gameState = 0;
+    this.speed = 2;
     this.score = 0;
 
     const canvas = document.getElementById('canvas');
@@ -28,7 +29,7 @@ const game = function () {
                 break;
             case 2:
                 this.bird.resetBirdPosition();
-                this.pipe.resetPipePosition();
+                this.pipe.reset();
                 this.gameState = 0;
                 break;
         }
@@ -56,6 +57,13 @@ const game = function () {
                 drawStartGame();
                 break;
             case 1:
+                if (this.bird.birdHitBox()) {
+                    console.log('Inside pipe');
+                    // if (this.bird.y < this.pipe.upperHitBox() || this.bird.y > this.pipe.lowerHitBox()) {
+                    //     console.log('Hit');
+                    //     this.gameState = 2;
+                    // }
+                }
                 drawInGame();
                 break;
             case 2:
