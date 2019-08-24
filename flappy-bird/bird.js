@@ -1,8 +1,10 @@
 const bird = function (game) {
     const context = game.context;
     const images = [];
+    const birdHeight = 24;
+    const birdWidth = 34;
     let currentImage = 0;
-    let currentFrame = 0;
+    let frames = 0;
 
     const x = 40;
     let fallingSpeed = 0;
@@ -33,14 +35,23 @@ const bird = function (game) {
     }
 
     this.birdHitBox = () => {
-        if (game.pipe.pipes[0] !== undefined) {
-            const pipeX = game.pipe.pipes[0].x;
-            if (pipeX + 52 < x) {
-                game.pipe.pipes.shift();
-                game.score++;
-                console.log(`Score: ${game.score}`);
+        if (game.pipe.pipes.length > 1) {
+            const pipe0 = game.pipe.pipes[0].x;
+            const pipe1 = game.pipe.pipes[1].x;
+                if (pipe0 + 52 < 0) {
+                    game.pipe.pipes.shift();
+                } else if (pipe0 + 52 < x && pipe0 + 52 >= x - game.speed) {
+                    game.score++;
+                    console.log(`Score: ${game.score}`);
+                }
+
+            if (x < pipe0 + 52 && x + birdWidth > pipe0) {
+                if (pipe0 + 52 < x) {
+                    return x < pipe1 + 52 && x + birdWidth > pipe1;
+                } else {
+                    return true;
+                }
             }
-            return x < pipeX + 52 && x + 24 > pipeX;
         } else {
             return false;
         }
@@ -50,18 +61,18 @@ const bird = function (game) {
         if (game.gameState === 2) {
             return;
         }
-        currentFrame++;
-        if (currentFrame === 60) {
-            currentFrame = 0;
+        frames++;
+        if (frames === 60) {
+            frames = 0;
         }
 
-        if (currentFrame % this.flapRatio === 0) {
+        if (frames % this.flapRatio === 0) {
             animateBird();
         }
 
         if (game.gameState === 1) {
-            if (this.y >= game.height - 112 - 24) {
-                this.y = game.height - 112 - 24;
+            if (this.y >= game.height - 112 - birdHeight) {
+                this.y = game.height - 112 - birdHeight;
                 game.gameState = 2;
                 return;
             }

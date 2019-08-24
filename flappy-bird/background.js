@@ -11,7 +11,6 @@ const background = function (game) {
     gameOverMessage.src = './assets/gameover.png';
 
     let x = 0;
-    const between = 50;
 
     function update() {
         if (game.gameState === 0 || game.gameState === 2) {

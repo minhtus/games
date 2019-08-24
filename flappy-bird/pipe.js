@@ -25,7 +25,7 @@ const pipe = function (game) {
             generatePipes();
         }
         frames++;
-        this.pipes.forEach(pipe => pipe.x -= game.speed)
+        this.pipes.map(pipe => pipe.x -= game.speed);
     };
 
     this.upperHitBox = () => this.pipes[0].y;
