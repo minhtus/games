@@ -1,4 +1,4 @@
-const bird = function(game) {
+const bird = function (game) {
     const context = game.context;
     const images = [];
     let currentImage = 0;
@@ -9,7 +9,7 @@ const bird = function(game) {
     const accelerator = 0.4;
 
     this.y = 100;
-    this.flapRatio = 5;
+    this.flapRatio = 10;
 
     loadImages();
 
@@ -32,10 +32,22 @@ const bird = function(game) {
         };
     }
 
-    this.birdHitBox = () => x < game.pipe.x + 52 && x + 24 > game.pipe.x;
+    this.birdHitBox = () => {
+        if (game.pipe.pipes[0] !== undefined) {
+            const pipeX = game.pipe.pipes[0].x;
+            if (pipeX + 52 < x) {
+                game.pipe.pipes.shift();
+                game.score++;
+                console.log(`Score: ${game.score}`);
+            }
+            return x < pipeX + 52 && x + 24 > pipeX;
+        } else {
+            return false;
+        }
+    };
 
     const update = () => {
-        if (game.gameState === 0 || game.gameState === 2) {
+        if (game.gameState === 2) {
             return;
         }
         currentFrame++;
@@ -47,17 +59,19 @@ const bird = function(game) {
             animateBird();
         }
 
-        if (this.y >= game.height - 112 - 24) {
-            this.y = game.height - 112 - 24;
-            game.gameState = 2;
-            return;
+        if (game.gameState === 1) {
+            if (this.y >= game.height - 112 - 24) {
+                this.y = game.height - 112 - 24;
+                game.gameState = 2;
+                return;
+            }
+            if (this.y < 0) {
+                this.y = 0;
+                fallingSpeed = 0;
+            }
+            fallingSpeed += accelerator;
+            this.y += fallingSpeed;
         }
-        if (this.y <0) {
-            this.y = 0;
-            fallingSpeed = 0;
-        }
-        fallingSpeed += accelerator;
-        this.y += fallingSpeed;
     };
 
     function animateBird() {
@@ -67,8 +81,9 @@ const bird = function(game) {
         }
     }
 
-    this.resetBirdPosition = () => {
+    this.reset = () => {
         this.y = 100;
+        this.flapRatio = 10;
         fallingSpeed = 0;
     };
 

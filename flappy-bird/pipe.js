@@ -28,6 +28,9 @@ const pipe = function (game) {
         this.pipes.forEach(pipe => pipe.x -= game.speed)
     };
 
+    this.upperHitBox = () => this.pipes[0].y;
+    this.lowerHitBox = () => this.pipes[0].y + gap;
+
     this.reset = () => {
         this.x = 288;
         this.pipes = [];

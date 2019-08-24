@@ -4,6 +4,7 @@ const game = function () {
     this.gameState = 0;
     this.speed = 2;
     this.score = 0;
+    this.highScore = 0;
 
     const canvas = document.getElementById('canvas');
     canvas.width = this.width;
@@ -23,16 +24,26 @@ const game = function () {
     const controlGame = () => {
         switch (this.gameState) {
             case 0:
+                this.bird.flapRatio = 5;
                 this.gameState = 1;
                 break;
             case 1: this.bird.flap();
                 break;
             case 2:
-                this.bird.resetBirdPosition();
-                this.pipe.reset();
+                resetGame();
                 this.gameState = 0;
                 break;
         }
+    };
+
+    const resetGame = () => {
+        this.bird.reset();
+        this.pipe.reset();
+        if (this.score > this.highScore) {
+            this.highScore = this.score;
+            console.log(`High score: ${this.highScore}`);
+        }
+        this.score = 0;
     };
 
     const drawStartGame = () => {
@@ -58,11 +69,10 @@ const game = function () {
                 break;
             case 1:
                 if (this.bird.birdHitBox()) {
-                    console.log('Inside pipe');
-                    // if (this.bird.y < this.pipe.upperHitBox() || this.bird.y > this.pipe.lowerHitBox()) {
-                    //     console.log('Hit');
-                    //     this.gameState = 2;
-                    // }
+                    if (this.bird.y < this.pipe.upperHitBox() || this.bird.y + 24 > this.pipe.lowerHitBox()) {
+                        console.log('Hit');
+                        this.gameState = 2;
+                    }
                 }
                 drawInGame();
                 break;
