@@ -12,7 +12,7 @@ $.ajax(git_api, {
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.textContent = game;
-            a.setAttribute('href',`./${result[i].name}`);
+            a.setAttribute('href',`./${result[i].name}/`);
             li.append(a);
             games.appendChild(li);
         }
