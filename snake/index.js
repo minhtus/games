@@ -4,7 +4,6 @@ function Game() {
         SNAKE_FILL_STYLE: 'lightBlue',
         SNAKE_STROKE_STYLE: 'darkBlue',
         SNAKE_PART_SIZE: 10,
-        SNAKE_MOVEMENT_SPEED: 10,
         SEED_FILL_STYLE: 'lightGreen',
         SEED_STROKE_STYLE: 'darkGreen',
         BOARD_FILL_STYLE: 'white',
@@ -40,6 +39,8 @@ function Game() {
     let score = 0;
     let seed = {};
     let direction = DIRECTION.RIGHT;
+    let snakeSpeed = 60;
+    let allowThroughWall = true;
     let state = true;
 
     const drawSnakePart = (part) => {
@@ -107,6 +108,9 @@ function Game() {
             seed = spawnSeed();
             console.log(score)
         }
+        if (allowThroughWall) {
+            throughWall(head);
+        }
         if (checkSnakeCollision(head)) {
             document.removeEventListener("keydown", changeDirection);
             state = false;
@@ -114,6 +118,21 @@ function Game() {
         }
         snake.unshift(head);
         snake.pop();
+    }
+
+    const throughWall = (head) => {
+        if (head.x >= CONSTANTS.BOARD_WIDTH) {
+            head.x = head.x - CONSTANTS.BOARD_WIDTH;
+        }
+        if (head.y >= CONSTANTS.BOARD_HEIGHT) {
+            head.y = head.y - CONSTANTS.BOARD_HEIGHT;
+        }
+        if (head.x < 0) {
+            head.x = head.x + CONSTANTS.BOARD_WIDTH;
+        }
+        if (head.y < 0) {
+            head.y = head.y + CONSTANTS.BOARD_HEIGHT;
+        }
     }
 
     const checkSnakeCollision = (head) => {
@@ -175,7 +194,7 @@ function Game() {
         moveSnake(direction);
         drawSeed(seed);
         drawSnake(snake);
-        setTimeout(gameRun, CONSTANTS.SNAKE_MOVEMENT_SPEED)
+        setTimeout(gameRun, snakeSpeed);
     }
 
     this.init = () => {
