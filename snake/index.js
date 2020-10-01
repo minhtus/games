@@ -1,6 +1,7 @@
 function Game() {
 
     const CONSTANTS = {
+        SNAKE_DEFAULT: [  {x: 200, y: 200},  {x: 190, y: 200},  {x: 180, y: 200},  {x: 170, y: 200},  {x: 160, y: 200},],
         SNAKE_FILL_STYLE: 'lightBlue',
         SNAKE_STROKE_STYLE: 'darkBlue',
         SNAKE_PART_SIZE: 10,
@@ -34,14 +35,17 @@ function Game() {
     gameBoard.width = CONSTANTS.BOARD_WIDTH;
     gameBoard.height = CONSTANTS.BOARD_HEIGHT;
     const context = gameBoard.getContext('2d');
+    const scoreText = document.getElementById('score');
+    const highScoreText = document.getElementById('high-score');
 
-    let snake = [  {x: 200, y: 200},  {x: 190, y: 200},  {x: 180, y: 200},  {x: 170, y: 200},  {x: 160, y: 200},];
+    let snake = [...CONSTANTS.SNAKE_DEFAULT];
     let score = 0;
+    let highScore = 0;
     let seed = {};
     let direction = DIRECTION.RIGHT;
     let snakeSpeed = 60;
     let allowThroughWall = true;
-    let state = true;
+    let state = false;
 
     const drawSnakePart = (part) => {
         context.fillStyle = CONSTANTS.SNAKE_FILL_STYLE;
@@ -84,9 +88,6 @@ function Game() {
     }
 
     const moveSnake = (direction) => {
-        if (!state) {
-            return;
-        }
         let head;
         switch (direction) {
             case DIRECTION.RIGHT:
@@ -106,7 +107,6 @@ function Game() {
             score++;
             snake.push(growSnake(direction));
             seed = spawnSeed();
-            console.log(score)
         }
         if (allowThroughWall) {
             throughWall(head);
@@ -114,6 +114,9 @@ function Game() {
         if (checkSnakeCollision(head)) {
             document.removeEventListener("keydown", changeDirection);
             state = false;
+            if (score > highScore) {
+                highScore = score;
+            }
             return;
         }
         snake.unshift(head);
@@ -182,6 +185,13 @@ function Game() {
         }
     }
 
+    const showScore = () => {
+        if (!state) {
+            highScoreText.textContent = highScore;
+        }
+        scoreText.textContent = score;
+    }
+
     const clearCanvas = () => {
         context.fillStyle = CONSTANTS.BOARD_FILL_STYLE;
         context.strokestyle = CONSTANTS.BOARD_STROKE_STYLE;
@@ -190,17 +200,28 @@ function Game() {
     }
 
     const gameRun = () => {
+        if (!state) {
+            return;
+        }
         clearCanvas();
         moveSnake(direction);
+        showScore();
         drawSeed(seed);
         drawSnake(snake);
         setTimeout(gameRun, snakeSpeed);
     }
 
     this.init = () => {
-        gameRun();
-        seed = spawnSeed();
+        if (state) {
+            return;
+        }
         document.addEventListener("keydown", changeDirection)
+        snake = [...CONSTANTS.SNAKE_DEFAULT];
+        direction = DIRECTION.RIGHT;
+        seed = spawnSeed();
+        state = true;
+        score = 0;
+        gameRun();
     }
 
 }
