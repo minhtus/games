@@ -45,7 +45,7 @@ function Game() {
     let seed = {};
     let direction = DIRECTION.RIGHT;
     let snakeSpeed = 60;
-    let allowThroughWall = false;
+    let allowThroughWall = true;
     let state = false;
 
     const drawSnakePart = (part) => {
@@ -177,8 +177,8 @@ function Game() {
     }
 
     const spawnSeed = () => {
-        const x = Math.round(Math.random() * CONSTANTS.BOARD_WIDTH / 10) * 10;
-        const y = Math.round(Math.random() * CONSTANTS.BOARD_HEIGHT / 10) * 10;
+        const x = Math.round(Math.random() * (CONSTANTS.BOARD_WIDTH - CONSTANTS.SNAKE_PART_SIZE) / CONSTANTS.SNAKE_PART_SIZE) * CONSTANTS.SNAKE_PART_SIZE;
+        const y = Math.round(Math.random() * (CONSTANTS.BOARD_HEIGHT - CONSTANTS.SNAKE_PART_SIZE) / CONSTANTS.SNAKE_PART_SIZE) * CONSTANTS.SNAKE_PART_SIZE;
         return {x, y}
     }
 
