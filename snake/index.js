@@ -37,6 +37,7 @@ function Game() {
     const context = gameBoard.getContext('2d');
     const scoreText = document.getElementById('score');
     const highScoreText = document.getElementById('high-score');
+    const btnReplay = document.getElementById('btnReplay');
 
     let snake = [...CONSTANTS.SNAKE_DEFAULT];
     let score = 0;
@@ -44,7 +45,7 @@ function Game() {
     let seed = {};
     let direction = DIRECTION.RIGHT;
     let snakeSpeed = 60;
-    let allowThroughWall = true;
+    let allowThroughWall = false;
     let state = false;
 
     const drawSnakePart = (part) => {
@@ -112,11 +113,7 @@ function Game() {
             throughWall(head);
         }
         if (checkSnakeCollision(head)) {
-            document.removeEventListener("keydown", changeDirection);
-            state = false;
-            if (score > highScore) {
-                highScore = score;
-            }
+            endGame();
             return;
         }
         snake.unshift(head);
@@ -144,6 +141,19 @@ function Game() {
             return true;
         }
         return snake.some(item => item.x === head.x && item.y === head.y);
+    }
+
+    const endGame = () => {
+        document.removeEventListener("keydown", changeDirection);
+        state = false;
+        if (score > highScore) {
+            highScore = score;
+        }
+        btnReplay.style.display = 'block';
+        btnReplay.addEventListener('click', () => {
+            window.game.init();
+            btnReplay.removeEventListener('click', null);
+        })
     }
 
     const growSnake = (direction) => {
@@ -215,7 +225,8 @@ function Game() {
         if (state) {
             return;
         }
-        document.addEventListener("keydown", changeDirection)
+        document.addEventListener("keydown", changeDirection);
+        btnReplay.style.display = 'none';
         snake = [...CONSTANTS.SNAKE_DEFAULT];
         direction = DIRECTION.RIGHT;
         seed = spawnSeed();
